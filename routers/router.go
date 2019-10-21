@@ -11,5 +11,6 @@ func InitRouter() *gin.Engine {
 
 	// 注册
 	router.GET("/register", controllers.RegisterGet)
+	router.POST("/register", controllers.RegisterPost)
 	return router
 }

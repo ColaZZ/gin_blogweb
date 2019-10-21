@@ -35,3 +35,4 @@ func RegisterPost(c *gin.Context) {
 	}
 
 }
+

@@ -10,18 +10,30 @@ import (
 func HomeGet(c *gin.Context){
 	isLogin := GetSession(c)
 
+	tag := c.Query("tag")
 	page, _ := strconv.Atoi(c.Query("page"))
+
+	var articleList []models.Article
+	var hasFooter bool
+
+	if len(tag) >0{
+		articleList, _ = models.QueryArticlesWithTag(tag)
+		hasFooter = false
+	}else{
+		articleList, _ = models.FindArticleWithPage(page)
+		hasFooter = true
+	}
+
 	if page <= 0{
 		page = 1
 	}
 	HomeFooterPageCode := models.ConfigHomeFooterPageCoder(page)
-	articleList, _ := models.FindArticleWithPage(page)
 	content := models.MakeHomeBlocks(articleList, isLogin)
 
 	c.HTML(http.StatusOK, "home.html", gin.H{
 		"IsLogin": isLogin,
 		"Content": content,
-		"HasFooter":true,
+		"HasFooter":hasFooter,
 		"PageCode": HomeFooterPageCode,
 	})
 }

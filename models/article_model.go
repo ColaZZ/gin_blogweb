@@ -63,18 +63,18 @@ func QueryArticleWithId(id int) (article Article) {
 }
 
 func UpdateArticle(article Article) (int64, error) {
-	return database.ModifyDB("update article set title=?,tags=?,short=?,content=?,author=?, createtime= ? " +
+	return database.ModifyDB("update article set title=?,tags=?,short=?,content=?,author=?, createtime= ? "+
 		"where id=?", article.Title, article.Tags, article.Short, article.Content, article.Author,
 		article.CreateTime, article.Id)
 }
 
-func DeleteArticle(id int) (int64, error){
+func DeleteArticle(id int) (int64, error) {
 	row, err := deleteArticleWithId(id)
 	SetArticleRowsNum()
 	return row, err
 }
 
-func deleteArticleWithId(id int) (int64, error){
+func deleteArticleWithId(id int) (int64, error) {
 	return database.ModifyDB("delete from article where id =?", id)
 }
 
@@ -91,4 +91,12 @@ func QueryArticleWithParam(param string) []string {
 		paramList = append(paramList, arg)
 	}
 	return paramList
+}
+
+func QueryArticlesWithTag(tag string) ([]Article, error) {
+	sql := "where tags like '%&" + tag + "%&'"
+	sql += "or tags like '%&" + tag + "'"
+	sql += "or tags like '" + tag + "%&'"
+	sql += "or tags like '" + tag + "'"
+	return QueryArticleWithCon(sql)
 }

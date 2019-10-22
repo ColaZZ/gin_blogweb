@@ -66,3 +66,13 @@ func UpdateArticle(article Article) (int64, error) {
 		"where id=?", article.Title, article.Tags, article.Short, article.Content, article.Author,
 		article.CreateTime, article.Id)
 }
+
+func DeleteArticle(id int) (int64, error){
+	row, err := deleteArticleWithId(id)
+	SetArticleRowsNum()
+	return row, err
+}
+
+func deleteArticleWithId(id int) (int64, error){
+	return database.ModifyDB("delete from article where id =?", id)
+}

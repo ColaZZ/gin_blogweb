@@ -2,9 +2,9 @@ package routers
 
 import (
 	"gin_blogweb/controllers"
-	"github.com/gin-gonic/gin"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
+	"github.com/gin-gonic/gin"
 )
 
 func InitRouter() *gin.Engine {
@@ -37,8 +37,11 @@ func InitRouter() *gin.Engine {
 			v1.GET("/show/:id", controllers.ShowArticleGet)
 
 			//更新文章
-			v1.GET("/update",controllers.UpdateArticleGet)
-			v1.POST("/update",controllers.UpdateArticlePost)
+			v1.GET("/update", controllers.UpdateArticleGet)
+			v1.POST("/update", controllers.UpdateArticlePost)
+
+			// 删除文章
+			v1.GET("/delete", controllers.DeleteArticleGet)
 		}
 
 		// 显示文章详情

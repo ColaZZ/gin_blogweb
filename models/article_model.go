@@ -5,6 +5,7 @@ import (
 	"gin_blogweb/config"
 	"gin_blogweb/database"
 	"github.com/jmoiron/sqlx"
+	"strconv"
 )
 
 var db *sqlx.DB
@@ -48,5 +49,15 @@ func QueryArticleWithCon(sql string) (articleList []Article, err error) {
 		return articleList, err
 	}
 	return articleList, nil
+}
+
+func QueryArticleWithId(id int) (article Article) {
+	sql := fmt.Sprintf("select id, title, tags, short, content, author, createtime where id = %d",
+		strconv.Itoa(id))
+	err := db.Select(&article, sql)
+	if err != nil {
+		return
+	}
+	return
 }
 

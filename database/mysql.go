@@ -17,6 +17,7 @@ func InitMysql() {
 	db.SetMaxIdleConns(16)
 
 	CreateTableWithUser()
+	CreateTableWithArticle()
 }
 
 func CreateTableWithUser() {
@@ -27,6 +28,19 @@ func CreateTableWithUser() {
 		status INT(4),
 		createtime INT(10)
 		);`
+	_, _ = ModifyDB(sqlStr)
+}
+
+func CreateTableWithArticle() {
+	sqlStr := `create table if not exists article(
+        id int(4) primary key auto_increment not null,
+        title varchar(30),
+        author varchar(20),
+        tags varchar(30),
+        short varchar(255),
+        content longtext,
+        createtime int(10)
+        );`
 	_, _ = ModifyDB(sqlStr)
 }
 

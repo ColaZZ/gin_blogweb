@@ -18,6 +18,7 @@ func InitMysql() {
 
 	CreateTableWithUser()
 	CreateTableWithArticle()
+	CreateTableWithAlbum()
 }
 
 func CreateTableWithUser() {
@@ -42,6 +43,17 @@ func CreateTableWithArticle() {
         createtime int(10)
         );`
 	_, _ = ModifyDB(sqlStr)
+}
+
+func CreateTableWithAlbum(){
+	sql := `create table if not exists album(
+        id int(4) primary key auto_increment not null,
+        filepath varchar(255),
+        filename varchar(64),
+        status int(4),
+        createtime int(10)
+        );`
+	_, _ = ModifyDB(sql)
 }
 
 // 执行sql的exec语句

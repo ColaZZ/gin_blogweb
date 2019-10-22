@@ -1,14 +1,10 @@
 package models
 
 import (
-	"bytes"
 	"fmt"
 	"gin_blogweb/config"
 	"gin_blogweb/database"
 	"github.com/jmoiron/sqlx"
-	"html/template"
-	"strconv"
-	"strings"
 )
 
 var db *sqlx.DB
@@ -25,6 +21,7 @@ type Article struct {
 
 func AddArticle(article Article) (int64, error) {
 	row, _ := insertArticle(article)
+	SetArticleRowsNum()
 	return row, nil
 }
 
@@ -53,38 +50,3 @@ func QueryArticleWithCon(sql string) (articleList []Article, err error) {
 	return articleList, nil
 }
 
-func MakeHomeBlocks(article []Article, isLogin bool) template.HTML {
-	htmlHome := ""
-	for _, art := range (article) {
-		homeParam := &HomeBlockParam{
-			Id:         art.Id,
-			Title:      art.Title,
-			Tags:       art.Tags,
-			Short:      art.Short,
-			Content:    art.Content,
-			Author:     art.Author,
-			CreateTime: art.CreateTime,
-			Link:       "/show" + strconv.Itoa(art.Id),
-			UpdateLink: "/article/update?id=" + strconv.Itoa(art.Id),
-			DeleteLink: "/article/delete?id=" + strconv.Itoa(art.Id),
-			IsLogin:    isLogin,
-		}
-
-		t, _ := template.ParseFiles("views/home_block.html")
-		buffer := bytes.Buffer{}
-		_ = t.Execute(&buffer, homeParam)
-		htmlHome += buffer.String()
-	}
-	return template.HTML(htmlHome)
-}
-
-func CreateTagsLinks (tags string) (tagLink []TagLink){
-	tagParams := strings.Split(tags, "&")
-	for _, tag := range (tagParams){
-		tagLink = append(tagLink, TagLink{
-			TagName: "tag",
-			TagUrl:  "/?tag=" + tag,
-		})
-	}
-	return tagLink
-}

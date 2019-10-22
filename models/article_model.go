@@ -61,3 +61,8 @@ func QueryArticleWithId(id int) (article Article) {
 	return
 }
 
+func UpdateArticle(article Article) (int64, error) {
+	return database.ModifyDB("update article set title=?,tags=?,short=?,content=?,author=?, createtime= ? " +
+		"where id=?", article.Title, article.Tags, article.Short, article.Content, article.Author,
+		article.CreateTime, article.Id)
+}

@@ -53,6 +53,9 @@ func InitRouter() *gin.Engine {
 		// 图片
 		router.GET("/album", controllers.AlbumGet)
 		router.POST("/upload", controllers.UploadPost)
+
+		// about me
+		router.GET("/aboutme", controllers.AboutMeGet)
 	}
 	return router
 }

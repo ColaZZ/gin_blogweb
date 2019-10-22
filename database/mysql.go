@@ -64,3 +64,7 @@ func QueryRowDB(sqlStr string) *sqlx.Row {
 	result := db.QueryRowx(sqlStr)
 	return result
 }
+
+func QueryDB(sqlStr string) (*sqlx.Rows, error) {
+	return db.Queryx(sqlStr)
+}

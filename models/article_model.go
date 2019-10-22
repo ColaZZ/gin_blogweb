@@ -5,6 +5,7 @@ import (
 	"gin_blogweb/config"
 	"gin_blogweb/database"
 	"github.com/jmoiron/sqlx"
+	"log"
 	"strconv"
 )
 
@@ -75,4 +76,19 @@ func DeleteArticle(id int) (int64, error){
 
 func deleteArticleWithId(id int) (int64, error){
 	return database.ModifyDB("delete from article where id =?", id)
+}
+
+func QueryArticleWithParam(param string) []string {
+	rows, err := database.QueryDB(fmt.Sprintf("select %s from article", param))
+	if err != nil {
+		log.Println(err)
+	}
+
+	var paramList []string
+	for rows.Next() {
+		arg := ""
+		_ = rows.Scan(&arg)
+		paramList = append(paramList, arg)
+	}
+	return paramList
 }

@@ -46,6 +46,9 @@ func InitRouter() *gin.Engine {
 
 		// 显示文章详情
 		router.GET("/show/:id", controllers.ShowArticleGet)
+
+		// 标签功能
+		router.GET("/tags", controllers.TagsGet)
 	}
 	return router
 }

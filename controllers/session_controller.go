@@ -3,7 +3,6 @@ package controllers
 import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 func GetSession(c *gin.Context) bool {
@@ -16,7 +15,3 @@ func GetSession(c *gin.Context) bool {
 	}
 }
 
-func HomeGet(c *gin.Context){
-	isLogin := GetSession(c)
-	c.HTML(http.StatusOK, "home.html", gin.H{"IsLogin": isLogin})
-}
